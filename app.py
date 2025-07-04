@@ -396,7 +396,9 @@ def patched_get_api_call_path(request):
 gradio.route_utils.get_api_call_path = patched_get_api_call_path
 
 if __name__ == "__main__":
-    pipeline = TrellisImageTo3DPipeline.from_pretrained("jetx/trellis-image-large")
+    model_repo = os.environ.get("TRELLIS_MODEL_REPO", "jetx/trellis-image-large")
+    print(f"Loading Trellis model from: {model_repo}")
+    pipeline = TrellisImageTo3DPipeline.from_pretrained(model_repo)
     pipeline.cuda()
     try:
         pipeline.preprocess_image(Image.fromarray(np.zeros((512, 512, 3), dtype=np.uint8)))    # Preload rembg
